@@ -153,10 +153,11 @@ class WithFileInputDemo extends React.Component {
         height={height}
         onSave={onSave}
         image={this.state.image}
-        render={({ triggerSave, getCanvasProps, imageDownloadUrl }) => (
+        render={({ triggerSave, getCanvasProps, imageDownloadUrl,resetDrawingOnCanvas }) => (
           <div style={styles.root}>
             <div>
               <button onClick={forceReRender}>Rerender (To choose another file)</button>
+              <button onClick={resetDrawingOnCanvas}>Restart</button>
               <button onClick={triggerSave}>Save Canvas</button>
             </div>
             {imageDownloadUrl ? (
