@@ -212,6 +212,12 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
 
   handleResetDrawingOnCanvas = () => {
     this.ctx.clearRect(0, 0, innerWidth, innerHeight);
+    //draw image if exists
+    const { width, height, image } = this.props;
+    setUpForCanvas();
+    if (image) {
+      this.drawImageToCanvas(image,width,height);
+    }
   };
 
   writeTextToCanvas = () => {
@@ -324,24 +330,28 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
     };
   };
 
+  drawImageToCanvas = (image:string|File,width:number,height:number) =>{
+
+    importImage(image)
+    .then(({ img, imgWidth, imgHeight }) => {
+      this.initializeCanvas(width, height, imgWidth, imgHeight);
+      this.ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
+      this.setState({
+        imageCanDownload: true
+      });
+    })
+    .catch(err => {
+      this.setState({
+        imageCanDownload: false
+      });
+      this.initializeCanvas(width, height);
+    });
+  }
   componentDidMount() {
     const { width, height, image } = this.props;
     setUpForCanvas();
     if (image) {
-      importImage(image)
-        .then(({ img, imgWidth, imgHeight }) => {
-          this.initializeCanvas(width, height, imgWidth, imgHeight);
-          this.ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
-          this.setState({
-            imageCanDownload: true
-          });
-        })
-        .catch(err => {
-          this.setState({
-            imageCanDownload: false
-          });
-          this.initializeCanvas(width, height);
-        });
+      this.drawImageToCanvas(image,width,height);
     } else {
       this.initializeCanvas(width, height);
     }

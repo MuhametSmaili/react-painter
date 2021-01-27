@@ -93,6 +93,7 @@ export declare class ReactPainter extends React.Component<ReactPainterProps, Pai
     handleSetLineCap: (type: LineCapType) => void;
     handleSetTextToWrite: (textToWrite: string) => void;
     getCanvasProps: (props?: PropsGetterInput) => PropsGetterResult;
+    drawImageToCanvas: (image: string | File, width: number, height: number) => void;
     componentDidMount(): void;
     componentWillUnmount(): void;
     render(): JSX.Element;
