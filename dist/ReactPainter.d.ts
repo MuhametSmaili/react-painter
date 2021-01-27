@@ -29,6 +29,8 @@ export interface RenderProps {
     setLineJoin: (type: LineJoinType) => void;
     setLineCap: (type: LineCapType) => void;
     resetDrawingOnCanvas: () => void;
+    writeTextToCanvas: () => void;
+    handleTextInput: (textToWrite: string) => void;
 }
 export interface ReactPainterProps {
     height?: number;
@@ -47,6 +49,8 @@ export interface PainterState {
     imageCanDownload: boolean;
     imageDownloadUrl: string;
     isDrawing: boolean;
+    isWritting: boolean;
+    textToWrite: string;
     color: string;
     lineWidth: number;
     lineJoin: LineJoinType;
@@ -79,6 +83,7 @@ export declare class ReactPainter extends React.Component<ReactPainterProps, Pai
     getDrawImageCanvasSize: (cWidth: number, cHeight: number, imageWidth: number, imageHeight: number) => number[];
     handleMouseDown: (e: React.SyntheticEvent<HTMLCanvasElement, Event>) => void;
     handleResetDrawingOnCanvas: () => void;
+    writeTextToCanvas: () => void;
     handleMouseMove: (e: React.SyntheticEvent<HTMLCanvasElement, Event>) => void;
     handleMouseUp: (e: React.SyntheticEvent<HTMLCanvasElement, Event>) => void;
     handleSave: () => void;
@@ -86,6 +91,7 @@ export declare class ReactPainter extends React.Component<ReactPainterProps, Pai
     handleSetLineWidth: (lineWidth: number) => void;
     handleSetLineJoin: (type: LineJoinType) => void;
     handleSetLineCap: (type: LineCapType) => void;
+    handleSetTextToWrite: (textToWrite: string) => void;
     getCanvasProps: (props?: PropsGetterInput) => PropsGetterResult;
     componentDidMount(): void;
     componentWillUnmount(): void;

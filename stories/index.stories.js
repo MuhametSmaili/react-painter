@@ -23,9 +23,11 @@ stories.add('basic', () => (
     width={number('width', 300)}
     height={number('height', 300)}
     onSave={action('canvas saved!')}
-    render={({ triggerSave, canvas,resetDrawingOnCanvas }) => (
+    render={({ triggerSave, canvas,resetDrawingOnCanvas,handleTextInput,writeTextToCanvas }) => (
       <div style={styles.root}>
         <div>
+        <input onChange={e => handleTextInput(e.target.value)} />
+          <button onClick={writeTextToCanvas}>WRITE</button>
           <button onClick={forceReRender}>Restart</button>
           <button onClick={resetDrawingOnCanvas}>CLEAR</button>
           <button onClick={triggerSave}>Save Canvas</button>

@@ -45,6 +45,8 @@ export interface RenderProps {
   setLineJoin: (type: LineJoinType) => void;
   setLineCap: (type: LineCapType) => void;
   resetDrawingOnCanvas:()=>void;
+  writeTextToCanvas: () => void;
+  handleTextInput: (textToWrite: string) => void;
 }
 
 export interface ReactPainterProps {
@@ -65,6 +67,8 @@ export interface PainterState {
   imageCanDownload: boolean;
   imageDownloadUrl: string;
   isDrawing: boolean;
+  isWritting: boolean;
+  textToWrite: string;
   color: string;
   lineWidth: number;
   lineJoin: LineJoinType;
@@ -110,6 +114,8 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
     imageCanDownload: null,
     imageDownloadUrl: null,
     isDrawing: false,
+    isWritting:false,
+    textToWrite: '',
     lineCap: this.props.initialLineCap,
     lineJoin: this.props.initialLineJoin,
     lineWidth: this.props.initialLineWidth
@@ -192,13 +198,30 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
     this.lastX = offsetX;
     this.lastY = offsetY;
 
-    this.setState({
-      isDrawing: true
-    });
+    if (!this.state.isWritting) {
+      this.setState({
+        isDrawing: true
+      });
+    } else if (this.state.isWritting) {
+      this.ctx.fillText(this.state.textToWrite, this.lastX, this.lastY);
+      this.setState({
+        isWritting: false
+      });
+    }
   };
 
   handleResetDrawingOnCanvas = () => {
     this.ctx.clearRect(0, 0, innerWidth, innerHeight);
+  };
+
+  writeTextToCanvas = () => {
+    this.setState({
+      isWritting: true
+    });
+    this.ctx.fillStyle = this.state.color;
+    this.ctx.strokeStyle = this.state.color;
+    this.ctx.font = '30px Arial';
+    this.ctx.stroke();
   };
 
   handleMouseMove = (e: React.SyntheticEvent<HTMLCanvasElement>) => {
@@ -263,6 +286,12 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
     });
   };
 
+  handleSetTextToWrite = (textToWrite: string) => {
+    this.setState({
+      textToWrite: textToWrite
+    });
+  };
+
   getCanvasProps = (props: PropsGetterInput = {}): PropsGetterResult => {
     const {
       onMouseDown,
@@ -288,6 +317,7 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
       style: {
         height: this.state.canvasHeight,
         width: this.state.canvasWidth,
+        cursor:this.state.isWritting?'text':'default',
         ...style
       },
       ...restProps
@@ -337,7 +367,9 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
           setLineJoin: this.handleSetLineJoin,
           setLineWidth: this.handleSetLineWidth,
           triggerSave: this.handleSave,
-          resetDrawingOnCanvas:this.handleResetDrawingOnCanvas
+          resetDrawingOnCanvas:this.handleResetDrawingOnCanvas,
+          handleTextInput: this.handleSetTextToWrite,
+          writeTextToCanvas: this.writeTextToCanvas,
         })
       : canvasNode;
   }
