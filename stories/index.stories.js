@@ -23,10 +23,11 @@ stories.add('basic', () => (
     width={number('width', 300)}
     height={number('height', 300)}
     onSave={action('canvas saved!')}
-    render={({ triggerSave, canvas }) => (
+    render={({ triggerSave, canvas,resetDrawingOnCanvas }) => (
       <div style={styles.root}>
         <div>
           <button onClick={forceReRender}>Restart</button>
+          <button onClick={resetDrawingOnCanvas}>CLEAR</button>
           <button onClick={triggerSave}>Save Canvas</button>
         </div>
         <FramedDiv>{canvas}</FramedDiv>

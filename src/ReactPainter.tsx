@@ -44,6 +44,7 @@ export interface RenderProps {
   setLineWidth: (width: number) => void;
   setLineJoin: (type: LineJoinType) => void;
   setLineCap: (type: LineCapType) => void;
+  resetDrawingOnCanvas:()=>void;
 }
 
 export interface ReactPainterProps {
@@ -196,6 +197,10 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
     });
   };
 
+  handleResetDrawingOnCanvas = () => {
+    this.ctx.clearRect(0, 0, innerWidth, innerHeight);
+  };
+
   handleMouseMove = (e: React.SyntheticEvent<HTMLCanvasElement>) => {
     const { color, lineWidth, lineCap, lineJoin } = this.state;
     if (this.state.isDrawing) {
@@ -331,7 +336,8 @@ export class ReactPainter extends React.Component<ReactPainterProps, PainterStat
           setLineCap: this.handleSetLineCap,
           setLineJoin: this.handleSetLineJoin,
           setLineWidth: this.handleSetLineWidth,
-          triggerSave: this.handleSave
+          triggerSave: this.handleSave,
+          resetDrawingOnCanvas:this.handleResetDrawingOnCanvas
         })
       : canvasNode;
   }
