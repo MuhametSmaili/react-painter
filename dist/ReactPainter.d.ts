@@ -60,7 +60,7 @@ export declare class ReactPainter extends React.Component<ReactPainterProps, Pai
     static propTypes: {
         color: PropTypes.Requireable<string>;
         height: PropTypes.Requireable<number>;
-        image: PropTypes.Requireable<string | File>;
+        image: PropTypes.Requireable<FormDataEntryValue>;
         lineCap: PropTypes.Requireable<string>;
         lineJoin: PropTypes.Requireable<string>;
         lineWidth: PropTypes.Requireable<number>;

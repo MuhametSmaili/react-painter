@@ -11,7 +11,7 @@ export interface ImportImageResponse {
     imgWidth: number;
     imgHeight: number;
 }
-export declare const importImage: (image: string | File) => Promise<ImportImageResponse>;
+export declare const importImage: (image: FormDataEntryValue) => Promise<ImportImageResponse>;
 declare type AnyFunction = (...params: any[]) => any;
 export declare const composeFn: (...fns: AnyFunction[]) => (...args: any[]) => void;
 export declare const makeAjaxHeadRequest: (url: string, withCredentials?: boolean) => Promise<any>;
